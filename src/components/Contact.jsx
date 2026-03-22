@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
@@ -16,6 +16,11 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const handleChange = (e) => {
     const { target } = e;
@@ -25,23 +30,99 @@ const Contact = () => {
       ...form,
       [name]: value,
     });
+
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      name: "",
+      email: "",
+      message: "",
+    };
+    let isValid = true;
+
+    const trimmedName = form.name.trim();
+    if (!trimmedName) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    } else if (trimmedName.length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+      isValid = false;
+    } else if (trimmedName.length > 50) {
+      newErrors.name = "Name must be less than 50 characters";
+      isValid = false;
+    } else if (!/^[a-zA-Z\s'-]+$/.test(trimmedName)) {
+      newErrors.name = "Name can only contain letters, spaces, hyphens, and apostrophes";
+      isValid = false;
+    }
+
+    const trimmedEmail = form.email.trim();
+    if (!trimmedEmail) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    } else if (trimmedEmail.length > 100) {
+      newErrors.email = "Email must be less than 100 characters";
+      isValid = false;
+    }
+
+    const trimmedMessage = form.message.trim();
+    if (!trimmedMessage) {
+      newErrors.message = "Message is required";
+      isValid = false;
+    } else if (trimmedMessage.length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+      isValid = false;
+    } else if (trimmedMessage.length > 1000) {
+      newErrors.message = "Message must be less than 1000 characters";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
+    
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    
+    // Validate environment variables
+    if (!serviceId || !templateId || !publicKey) {
+      setLoading(false);
+      alert("Email service is not configured. Please contact the administrator.");
+      console.error("Missing EmailJS credentials. Check your .env file.");
+      return;
+    }
+    
     emailjs
       .send(
-        'service_vdzs7zu',
-        'template_j3vhgxj',
+        serviceId,
+        templateId,
         {
-          from_name: form.name,
+          from_name: form.name.trim(),
           to_name: "Anuj",
-          from_email: form.email,
+          from_email: form.email.trim(),
           to_email: "anuj.parashar.140@gmail.com",
-          message: form.message,
+          message: form.message.trim(),
         },
-        'm7cNpcOGD4yIvFQLK'
+        publicKey
       )
       .then(
         () => {
@@ -53,12 +134,40 @@ const Contact = () => {
             email: "",
             message: "",
           });
+          setErrors({
+            name: "",
+            email: "",
+            message: "",
+          });
         },
         (error) => {
           setLoading(false);
-          console.error(error);
-
-          alert("Ahh, something went wrong. Please try again.");
+          console.error("EmailJS Error:", error);
+          
+          let errorMessage = "Ahh, something went wrong. Please try again.";
+          
+          if (error.text) {
+            // Common EmailJS errors
+            if (error.text.includes("Invalid grant")) {
+              errorMessage = "Email service authentication expired. Please contact the site administrator to reconnect the Gmail account.";
+            } else if (error.text.includes("insufficient authentication scopes")) {
+              errorMessage = "Email service needs additional permissions. Please contact the site administrator to update Gmail permissions.";
+            } else if (error.text.includes("403") || error.text.includes("Forbidden")) {
+              errorMessage = "Email service access denied. Please contact the site administrator.";
+            } else if (error.text.includes("404")) {
+              errorMessage = "Email service configuration not found. Please contact the site administrator.";
+            }
+          }
+          
+          alert(errorMessage);
+          
+          // Log detailed error for debugging
+          console.error("Full error details:", {
+            status: error.status,
+            text: error.text,
+            serviceId: serviceId,
+            templateId: templateId
+          });
         }
       );
   };
@@ -86,20 +195,32 @@ const Contact = () => {
               name='name'
               value={form.name}
               onChange={handleChange}
-              placeholder="What's your name ?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              placeholder="What's your name?"
+              required
+              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                errors.name ? 'border-2 border-red-500' : ''
+              }`}
             />
+            {errors.name && (
+              <span className='text-red-500 text-sm mt-2'>{errors.name}</span>
+            )}
           </label>
           <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your email</span>
+            <span className='text-white font-medium mb-4'>Your Email</span>
             <input
               type='email'
               name='email'
               value={form.email}
               onChange={handleChange}
-              placeholder="What's your email address ?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              placeholder="What's your email address?"
+              required
+              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                errors.email ? 'border-2 border-red-500' : ''
+              }`}
             />
+            {errors.email && (
+              <span className='text-red-500 text-sm mt-2'>{errors.email}</span>
+            )}
           </label>
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your Message</span>
@@ -108,14 +229,26 @@ const Contact = () => {
               name='message'
               value={form.message}
               onChange={handleChange}
-              placeholder='What you want to say ?'
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              placeholder='What do you want to say?'
+              required
+              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                errors.message ? 'border-2 border-red-500' : ''
+              }`}
             />
+            {errors.message && (
+              <span className='text-red-500 text-sm mt-2'>{errors.message}</span>
+            )}
+            <span className='text-secondary text-xs mt-1'>
+              {form.message.trim().length}/1000 characters
+            </span>
           </label>
 
           <button
             type='submit'
-            className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'
+            disabled={loading}
+            className={`bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary ${
+              loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-tertiary/90'
+            }`}
           >
             {loading ? "Sending..." : "Send"}
           </button>
@@ -132,4 +265,5 @@ const Contact = () => {
   );
 };
 
-export default SectionWrapper(Contact, "contact");
+const ContactWithWrapper = SectionWrapper(Contact, "contact");
+export default ContactWithWrapper;

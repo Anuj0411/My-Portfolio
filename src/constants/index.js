@@ -30,12 +30,12 @@ export const navLinks = [
 
 const services = [
   {
-    title: 'Sr. Angular Developer',
-    icon: Angular,
+    title: 'Sr. React Developer',
+    icon: reactjs,
   },
   {
-    title: 'React Developer',
-    icon: reactjs,
+    title: 'Sr. Angular Developer',
+    icon: Angular,
   },
   {
     title: 'Javascript Developer',
@@ -49,6 +49,10 @@ const services = [
 
 const technologies = [
   {
+    name: 'React JS',
+    icon: reactjs,
+  },
+  {
     name: 'Angular',
     icon: Angular
   },
@@ -59,10 +63,6 @@ const technologies = [
   {
     name: 'TypeScript',
     icon: typescript,
-  },
-  {
-    name: 'React JS',
-    icon: reactjs,
   },
   {
     name: 'Node JS',
@@ -80,31 +80,18 @@ const technologies = [
 
 const experiences = [
   {
-    title: 'Sr. Software Engineer',
-    company_name: 'EPAM, Pune',
+    title: 'Senior Frontend Engineer',
+    company_name: 'EPAM Systems, Pune',
     icon: epam,
     iconBg: '#383E56',
-    date: 'June 2022 - Current',
+    date: 'June 2022 - Present',
     points: [
-      `UI Development & Customization: Led the development of
-      advanced, customizable UI components such as actionable and
-      filterable tables, cards, charts, and interactive dashboards for
-      network security application, ensuring dynamic data visualization and
-      a seamless user experience.`,
-      `Data-Intensive Application: Led the development of a data-heavy
-      module by implementing the Model Adapter Pattern for robust data
-      modeling and ensuring efficient, maintainable data flow across the
-      application.`,
-      `Data Visualization & Insights: Developed interactive DNS traffic
-      visualization using Apache ECharts, delivering actionable insights
-      through real-time data representation.`,
-      `Optimized Data Fetching: Integrated Cube.js for efficient data
-      fetching and processing, significantly improving the application’s
-      scalability and performance in handling large data sets.`,
-      `UX Collaboration & Consistency: Worked closely with the UX team
-      to ensure all UI components followed design consistency, usability,
-      and core library standards, maintaining high alignment with UX best
-      practices.`,
+      'Architected and delivered reusable dashboard, table, and charting components for cloud-based network security DNS analytics platform, powering multiple workflows across the application.',
+      'Built real-time DNS traffic visualization features using Apache ECharts, enabling security analysts to investigate threats faster and make data-driven decisions.',
+      'Optimized application performance by integrating Cube.js for server-side data aggregation, achieving 15%+ improvement in page load times for data-intensive modules.',
+      'Designed Redux architecture using feature-based slices and custom hooks, establishing consistent state management patterns adopted across multiple engineering teams.',
+      'Took initiative to architect and deploy centralized AI development framework across 10+ enterprise micro-frontends, reducing AI configuration complexity by 80% through reusable agent libraries and standardized prompt patterns.',
+      'Collaborated with cross-functional teams to implement micro-frontend architecture, improving code modularity and enabling independent deployments.',
     ],
   },
   {
@@ -114,22 +101,23 @@ const experiences = [
     iconBg: '#E6DEDD',
     date: 'March 2021 - June 2022',
     points: [
-      `Digitized Manufacturing Operations: Led the digitization of manufacturing processes for a multinational corporation, focusing on user experience and improving efficiency through system automation.`,
-      `Voucher Module Development: Architected and developed a labor/operator voucher module using RxJS, NgRx, and micro-frontends, transforming a manual process into an organized, digital solution that boosted productivity.`,
-      `Micro-Frontend & Collaboration: Implemented micro-frontends architecture for modular UI development and collaborated with cross-functional teams to deliver scalable, user-centric solutions, maintaining high coding standards.`,
+      'Led a team of 5 engineers in modernizing aerospace manufacturing platform for GE Aerospace using micro-frontend architecture, enabling parallel development and reducing cross-team dependencies.',
+      'Engineered labor/operator voucher module with Angular, RxJS, and NgRx that digitized manual shop-floor workflows, cutting processing time and errors by approximately 25%.',
+      'Drove standardization efforts for shared UI component library used across multiple product teams, improving development velocity and maintaining design consistency.',
+      'Championed adoption of reactive programming patterns using RxJS, improving data flow management and application responsiveness.',
     ],
   },
   {
-    title: 'Front End Developer',
-    company_name: 'TCS, Indore',
+    title: 'Frontend Developer',
+    company_name: 'Tata Consultancy Services, Indore',
     icon: TCS,
     iconBg: '#383E56',
-    date: 'Dec 2017 - March 2021',
+    date: 'December 2017 - March 2021',
     points: [
-      'Participated in the end-to-end development of an insurance product, adhering to strict deadlines and coding standards.',
-      'Automated customer data verification via Kofax integration,optimizing operational efficiency.',
-      'Established a centralized reactive form validation module to ensure reusability.',
-      'Played a key role in designing the initial application architecture,prioritizing scalability and maintainability.',
+      'Developed reusable Angular form components for Aviva insurance platform, deployed across multiple customer lifecycle stages and reducing development time for new features.',
+      'Integrated Kofax-based automated KYC solution into insurance onboarding flow, reducing customer onboarding time by 50%+ and improving user experience significantly.',
+      'Contributed to frontend architecture decisions focusing on scalability and performance optimization for enterprise banking and insurance applications.',
+      'Built centralized form validation framework using reactive patterns, ensuring consistency and reusability across the application.',
     ],
   },
 ];
