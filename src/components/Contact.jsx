@@ -8,6 +8,7 @@ import { SectionWrapper } from '../hoc';
 import { slideIn } from '../utils/motion';
 import { contactInfo } from '../constants';
 import { linkedin, github, email as emailIcon, phone as phoneIcon } from '../assets';
+import Toast from './Toast';
 
 const Contact = () => {
   const formRef = useRef();
@@ -23,6 +24,18 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [toast, setToast] = useState({
+    isVisible: false,
+    message: '',
+    type: 'success',
+  });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ isVisible: true, message, type });
+    setTimeout(() => {
+      setToast({ isVisible: false, message: '', type: 'success' });
+    }, 5000);
+  };
 
   const handleChange = (e) => {
     const { target } = e;
@@ -108,7 +121,7 @@ const Contact = () => {
     // Validate environment variables
     if (!serviceId || !templateId || !publicKey) {
       setLoading(false);
-      alert('Email service is not configured. Please contact the administrator.');
+      showToast('Email service is not configured. Please contact the administrator.', 'error');
       console.error('Missing EmailJS credentials. Check your .env file.');
       return;
     }
@@ -129,7 +142,7 @@ const Contact = () => {
       .then(
         () => {
           setLoading(false);
-          alert('Thank you. I will get back to you as soon as possible.');
+          showToast('Thank you! I will get back to you as soon as possible.', 'success');
 
           setForm({
             name: '',
@@ -164,7 +177,7 @@ const Contact = () => {
             }
           }
 
-          alert(errorMessage);
+          showToast(errorMessage, 'error');
 
           // Log detailed error for debugging
           console.error('Full error details:', {
@@ -178,152 +191,191 @@ const Contact = () => {
   };
 
   return (
-    <div className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}>
-      <motion.div
-        variants={slideIn('left', 'tween', 0.2, 1)}
-        className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
-      >
-        <p className={styles.sectionSubText}>Get in touch</p>
-        <h3 className={styles.sectionHeadText}>Contact.</h3>
+    <>
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={() => setToast({ ...toast, isVisible: false })}
+      />
+      <div className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}>
+        <motion.div
+          variants={slideIn('left', 'tween', 0.2, 1)}
+          className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
+        >
+          <p className={styles.sectionSubText}>Get in touch</p>
+          <h3 className={styles.sectionHeadText}>Contact.</h3>
 
-        <form ref={formRef} onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Name</span>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="What's your name?"
-              required
-              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
-                errors.name ? 'border-2 border-red-500' : ''
+          <form ref={formRef} onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">Your Name</span>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="What's your name?"
+                required
+                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                  errors.name ? 'border-2 border-red-500' : ''
+                }`}
+              />
+              {errors.name && <span className="text-red-500 text-sm mt-2">{errors.name}</span>}
+            </label>
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">Your Email</span>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="What's your email address?"
+                required
+                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                  errors.email ? 'border-2 border-red-500' : ''
+                }`}
+              />
+              {errors.email && <span className="text-red-500 text-sm mt-2">{errors.email}</span>}
+            </label>
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">Your Message</span>
+              <textarea
+                rows={7}
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="What do you want to say?"
+                required
+                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
+                  errors.message ? 'border-2 border-red-500' : ''
+                }`}
+              />
+              {errors.message && (
+                <span className="text-red-500 text-sm mt-2">{errors.message}</span>
+              )}
+              <span className="text-secondary text-xs mt-1">
+                {form.message.trim().length}/1000 characters
+              </span>
+            </label>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className={`bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary ${
+                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-tertiary/90'
               }`}
-            />
-            {errors.name && <span className="text-red-500 text-sm mt-2">{errors.name}</span>}
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Email</span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="What's your email address?"
-              required
-              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
-                errors.email ? 'border-2 border-red-500' : ''
-              }`}
-            />
-            {errors.email && <span className="text-red-500 text-sm mt-2">{errors.email}</span>}
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Message</span>
-            <textarea
-              rows={7}
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              placeholder="What do you want to say?"
-              required
-              className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium ${
-                errors.message ? 'border-2 border-red-500' : ''
-              }`}
-            />
-            {errors.message && <span className="text-red-500 text-sm mt-2">{errors.message}</span>}
-            <span className="text-secondary text-xs mt-1">
-              {form.message.trim().length}/1000 characters
-            </span>
-          </label>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary ${
-              loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-tertiary/90'
-            }`}
-          >
-            {loading ? 'Sending...' : 'Send'}
-          </button>
-        </form>
-
-        {/* Contact Information Section */}
-        <div className="mt-12 pt-8 border-t border-secondary/20">
-          <h4 className="text-white font-medium text-[18px] mb-6">Other Ways to Reach Me</h4>
-          <div className="flex flex-col gap-4">
-            <a
-              href={`mailto:${contactInfo.email}`}
-              className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
             >
-              <img
-                src={emailIcon}
-                alt="email"
-                className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
-              />
-              <span className="text-[14px]">{contactInfo.email}</span>
-            </a>
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Sending...
+                </span>
+              ) : (
+                'Send Message'
+              )}
+            </button>
 
-            <a
-              href={`tel:${contactInfo.phone}`}
-              className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
-            >
-              <img
-                src={phoneIcon}
-                alt="phone"
-                className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
-              />
-              <span className="text-[14px]">{contactInfo.phone}</span>
-            </a>
+            <div className="mt-4 text-secondary text-xs">
+              <p>
+                By submitting this form, you agree to the collection and use of your information
+                solely for responding to your inquiry.
+              </p>
+            </div>
+          </form>
 
-            <a
-              href={contactInfo.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
-            >
-              <img
-                src={linkedin}
-                alt="linkedin"
-                className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
-              />
-              <span className="text-[14px]">LinkedIn Profile</span>
-            </a>
-
-            <a
-              href={contactInfo.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
-            >
-              <img
-                src={github}
-                alt="github"
-                className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
-              />
-              <span className="text-[14px]">GitHub Profile</span>
-            </a>
-
-            <div className="flex items-center gap-3 text-secondary mt-2">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
+          {/* Contact Information Section */}
+          <div className="mt-12 pt-8 border-t border-secondary/20">
+            <h4 className="text-white font-medium text-[18px] mb-6">Other Ways to Reach Me</h4>
+            <div className="flex flex-col gap-4">
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
+              >
+                <img
+                  src={emailIcon}
+                  alt="email"
+                  className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
                 />
-              </svg>
-              <span className="text-[14px]">{contactInfo.location}</span>
+                <span className="text-[14px]">{contactInfo.email}</span>
+              </a>
+
+              <a
+                href={`tel:${contactInfo.phone}`}
+                className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
+              >
+                <img
+                  src={phoneIcon}
+                  alt="phone"
+                  className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
+                />
+                <span className="text-[14px]">{contactInfo.phone}</span>
+              </a>
+
+              <a
+                href={contactInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
+              >
+                <img
+                  src={linkedin}
+                  alt="linkedin"
+                  className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
+                />
+                <span className="text-[14px]">LinkedIn Profile</span>
+              </a>
+
+              <a
+                href={contactInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-secondary hover:text-white transition-colors group"
+              >
+                <img
+                  src={github}
+                  alt="github"
+                  className="w-6 h-6 object-contain group-hover:scale-110 transition-transform"
+                />
+                <span className="text-[14px]">GitHub Profile</span>
+              </a>
+
+              <div className="flex items-center gap-3 text-secondary mt-2">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="text-[14px]">{contactInfo.location}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        variants={slideIn('right', 'tween', 0.2, 1)}
-        className="xl:flex-1 xl:h-auto md:h-[650px] h-[450px]"
-      >
-        <EarthCanvas />
-      </motion.div>
-    </div>
+        <motion.div
+          variants={slideIn('right', 'tween', 0.2, 1)}
+          className="xl:flex-1 xl:h-auto md:h-[650px] h-[450px]"
+        >
+          <EarthCanvas />
+        </motion.div>
+      </div>
+    </>
   );
 };
 

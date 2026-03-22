@@ -7,6 +7,12 @@ import Experience from './Experience';
 import Contact from './Contact';
 import MyResume from './Resume';
 import SocialLinks from './SocialLinks';
+import BackToTop from './BackToTop';
+import LoadingScreen from './LoadingScreen';
+import Toast from './Toast';
+import Footer from './Footer';
+import PrivacyPolicy from './PrivacyPolicy';
+
 export {
   Hero,
   Navbar,
@@ -20,4 +26,9 @@ export {
   StarsCanvas,
   MyResume,
   SocialLinks,
+  BackToTop,
+  LoadingScreen,
+  Toast,
+  Footer,
+  PrivacyPolicy,
 };

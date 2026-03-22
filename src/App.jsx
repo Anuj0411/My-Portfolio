@@ -1,6 +1,16 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import { About, Contact, Experience, Hero, Navbar, Tech, StarsCanvas } from './components';
+import {
+  About,
+  Contact,
+  Experience,
+  Hero,
+  Navbar,
+  Tech,
+  StarsCanvas,
+  BackToTop,
+  Footer,
+} from './components';
 
 const App = () => {
   return (
@@ -17,6 +27,8 @@ const App = () => {
           <Contact />
           <StarsCanvas />
         </div>
+        <Footer />
+        <BackToTop />
       </div>
     </BrowserRouter>
   );
