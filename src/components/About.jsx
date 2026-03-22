@@ -46,18 +46,13 @@ const About = () => {
 				variants={fadeIn('', '', 0.1, 1)}
 				className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
 			>
-				Results-driven UI Developer with 7+ years of experience in
-				delivering innovative and scalable front-end solutions across
-				network security, manufacturing, and banking domains. Skilled in
-				developing advanced, customizable UI components, data-intensive
-				modules, and real-time data visualizations. Adept at leveraging
-				frameworks like Angular, React, RxJS, and NgRx, alongside
-				expertise in micro-frontend architecture and UX collaboration.
-				Proven ability to enhance performance, optimize workflows, and
-				deliver seamless user experiences while maintaining high coding
-				standards and scalability. Recognized for contributions to
-				digitization projects and efficiency improvements in fast-paced,
-				cross-functional environments.
+				Senior Frontend Engineer with 8+ years of experience building
+				scalable, high-performance web applications using React and
+				Angular. Strong expertise in frontend architecture, performance
+				optimization, and reusable component design for enterprise
+				platforms. Experienced in leveraging AI-assisted development
+				tools and automation workflows to improve productivity and
+				accelerate delivery.
 			</motion.p>
 
 			<div className="mt-20 flex flex-wrap gap-10">
