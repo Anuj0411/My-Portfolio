@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { styles } from "../style";
+import { styles } from '../style';
 import { navLinks } from '../constants';
-import { logo, menu, close } from '../assets';
-import {MyResume} from './index'
+import { logo, menu, close, github, linkedin } from '../assets';
+import { MyResume } from './index';
+import { contactInfo } from '../constants';
 const Navbar = () => {
 	const [active, setActive] = useState('');
 	const [toggle, setToggle] = useState(false);
@@ -25,11 +26,11 @@ const Navbar = () => {
 						alt="logo"
 						className="w-9 h-9 object-contain"
 					/>
-					<p className="test-white text-[18px] font-bold cursor-pointer">
+					<p className="test-white text-[18px] font-bold cursor-pointer flex items-center gap-2">
 						Anuj Parashar
 					</p>
 				</Link>
-				<ul className="list-none hidden sm:flex flex-row gap-10">
+				<ul className="list-none hidden sm:flex flex-row gap-10 items-center">
 					{navLinks.map((link) => {
 						return (
 							<li
@@ -46,6 +47,35 @@ const Navbar = () => {
 						);
 					})}
 					<MyResume />
+					{/* Social Icons */}
+					<li className="flex gap-3 ml-2">
+						<a
+							href={contactInfo.linkedin}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="w-8 h-8 rounded-full bg-tertiary flex justify-center items-center hover:scale-110 transition-transform"
+							title="LinkedIn"
+						>
+							<img
+								src={linkedin}
+								alt="LinkedIn"
+								className="w-5 h-5 object-contain"
+							/>
+						</a>
+						<a
+							href={contactInfo.github}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="w-8 h-8 rounded-full bg-tertiary flex justify-center items-center hover:scale-110 transition-transform"
+							title="GitHub"
+						>
+							<img
+								src={github}
+								alt="GitHub"
+								className="w-5 h-5 object-contain"
+							/>
+						</a>
+					</li>
 				</ul>
 				<div className="sm:hidden flex flex-1 justify-end items-center">
 					<img
