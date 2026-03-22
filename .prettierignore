@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Production
+dist
+build
+.vercel
+.netlify
+
+# Misc
+.DS_Store
+*.log
+*.lock
+.env
+.env.local
+.env.production.local
+.env.development.local
+.env.test.local
+
+# IDE
+.vscode
+.idea
+
+# Public assets
+public/desktop_pc
+public/planet
+*.gltf
+*.bin
