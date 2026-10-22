@@ -9,6 +9,7 @@ import {
   Hero,
   Impact,
   Navbar,
+  Projects,
   Craft,
   BackToTop,
   Footer,
@@ -38,6 +39,7 @@ const App = () => {
               <Impact />
               <About />
               <Experience />
+              <Projects />
               <Craft />
               <Contact />
             </main>

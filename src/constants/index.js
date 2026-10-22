@@ -16,6 +16,10 @@ export const navLinks = [
     title: 'Work',
   },
   {
+    id: 'projects',
+    title: 'Projects',
+  },
+  {
     id: 'contact',
     title: 'Contact',
   },
@@ -83,6 +87,24 @@ const impacts = [
   },
 ];
 
+const projects = [
+  {
+    name: 'MapleKids',
+    role: 'Play school platform',
+    summary:
+      'A live site for MapleKids Play School: public pages for early childhood programs, plus role-based dashboards for admins, teachers, and parents.',
+    points: [
+      'Admin dashboard for students, income and expenses, photo gallery, events, and staff accounts.',
+      'Teacher attendance by class and date; parent portal for calendar, events, and school updates.',
+      'React and TypeScript with Firebase Auth, Firestore, and Storage.',
+    ],
+    links: [
+      { href: 'https://maplekids.in/', label: 'maplekids.in' },
+      { href: 'https://github.com/Anuj0411/maplekids-website', label: 'GitHub' },
+    ],
+  },
+];
+
 const craft = [
   {
     title: 'Architecture',
@@ -102,4 +124,4 @@ const craft = [
   },
 ];
 
-export { experiences, impacts, craft };
+export { experiences, impacts, projects, craft };

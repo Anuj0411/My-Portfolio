@@ -5,6 +5,7 @@ import About from './About';
 import Impact from './Impact';
 import Craft from './Craft';
 import Experience from './Experience';
+import Projects from './Projects';
 import Contact from './Contact';
 import MyResume from './Resume';
 import SocialLinks from './SocialLinks';
@@ -19,6 +20,7 @@ export {
   Impact,
   Craft,
   Experience,
+  Projects,
   Contact,
   CosmosCanvas,
   MyResume,
