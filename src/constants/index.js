@@ -1,16 +1,3 @@
-import {
-  Angular,
-  javascript,
-  typescript,
-  html,
-  css,
-  reactjs,
-  nodejs,
-  TCS,
-  epam,
-  Genpact,
-} from '../assets';
-
 export const contactInfo = {
   email: 'anuj.parashar.140@gmail.com',
   phone: '+91 8878286663',
@@ -34,77 +21,24 @@ export const navLinks = [
   },
 ];
 
-const services = [
-  {
-    title: 'Sr. React Developer',
-    icon: reactjs,
-  },
-  {
-    title: 'Sr. Angular Developer',
-    icon: Angular,
-  },
-  {
-    title: 'Javascript Developer',
-    icon: javascript,
-  },
-  {
-    title: 'Typescript Developer',
-    icon: typescript,
-  },
-];
-
-const technologies = [
-  {
-    name: 'React JS',
-    icon: reactjs,
-  },
-  {
-    name: 'Angular',
-    icon: Angular,
-  },
-  {
-    name: 'JavaScript',
-    icon: javascript,
-  },
-  {
-    name: 'TypeScript',
-    icon: typescript,
-  },
-  {
-    name: 'Node JS',
-    icon: nodejs,
-  },
-  {
-    name: 'HTML 5',
-    icon: html,
-  },
-  {
-    name: 'CSS 3',
-    icon: css,
-  },
-];
-
 const experiences = [
   {
     title: 'Senior Frontend Engineer',
     company_name: 'EPAM Systems, Pune',
-    icon: epam,
-    iconBg: '#383E56',
+    product: 'BloxOne Cloud Services Portal — DNS, DHCP, IPAM & Threat Defense',
     date: 'June 2022 - Present',
     points: [
-      'Architected and delivered reusable dashboard, table, and charting components for cloud-based network security DNS analytics platform, powering multiple workflows across the application.',
-      'Built real-time DNS traffic visualization features using Apache ECharts, enabling security analysts to investigate threats faster and make data-driven decisions.',
-      'Optimized application performance by integrating Cube.js for server-side data aggregation, achieving 15%+ improvement in page load times for data-intensive modules.',
-      'Designed Redux architecture using feature-based slices and custom hooks, establishing consistent state management patterns adopted across multiple engineering teams.',
-      'Took initiative to architect and deploy centralized AI development framework across 10+ enterprise micro-frontends, reducing AI configuration complexity by 80% through reusable agent libraries and standardized prompt patterns.',
-      'Collaborated with cross-functional teams to implement micro-frontend architecture, improving code modularity and enabling independent deployments.',
+      'Architected and maintained 30+ independently deployable Angular micro-frontends (single-spa) across DNS, DHCP, IPAM, and Threat Defense, so teams release without blocking each other.',
+      'Built an in-house Angular design system of 30+ components — data tables, wizards, and a filter engine — with theming, dark mode, and Storybook.',
+      'Built the UI for an LLM-powered conversational assistant used across products: SSE-streamed answers, partial and error states, copy, feedback, and branch actions, and i18n.',
+      'Defined the chart contract between the Python AI backend and the UI, and made series distinguishable by pattern and shape — not color alone.',
+      'Extracted Threat Defense into a standalone micro-frontend (repo, CI/CD, Helm, routing, auth, feature flags) and moved MFEs onto a shared chat host.',
+      'Led the Angular 15→21 migration with OnPush, lazy loading, code splitting, and zoneless change detection. Standardized GitHub Actions, Helm, Jest, and Playwright.',
     ],
   },
   {
     title: 'UI Consultant',
     company_name: 'Genpact, Gurugram',
-    icon: Genpact,
-    iconBg: '#E6DEDD',
     date: 'March 2021 - June 2022',
     points: [
       'Led a team of 5 engineers in modernizing aerospace manufacturing platform for GE Aerospace using micro-frontend architecture, enabling parallel development and reducing cross-team dependencies.',
@@ -116,8 +50,6 @@ const experiences = [
   {
     title: 'Frontend Developer',
     company_name: 'Tata Consultancy Services, Indore',
-    icon: TCS,
-    iconBg: '#383E56',
     date: 'December 2017 - March 2021',
     points: [
       'Developed reusable Angular form components for Aviva insurance platform, deployed across multiple customer lifecycle stages and reducing development time for new features.',
@@ -128,4 +60,46 @@ const experiences = [
   },
 ];
 
-export { services, technologies, experiences };
+const impacts = [
+  {
+    metric: '30+',
+    label: 'Angular MFEs',
+    detail: 'Independently deployable single-spa apps across DNS, DHCP, IPAM, and Threat Defense.',
+    context: 'EPAM',
+  },
+  {
+    metric: '15→21',
+    label: 'Angular migration',
+    detail:
+      'OnPush, lazy loading, code splitting, and zoneless change detection on the BloxOne portal.',
+    context: 'EPAM',
+  },
+  {
+    metric: '~25%',
+    label: 'Faster shop floor',
+    detail:
+      'Led 5 engineers on a GE Aerospace micro-frontend rebuild. Vouchers digitized, fewer errors.',
+    context: 'Genpact',
+  },
+];
+
+const craft = [
+  {
+    title: 'Architecture',
+    items: ['Micro-frontends', 'single-spa', 'NgRx / RxJS', 'Independent deploys'],
+  },
+  {
+    title: 'UI systems',
+    items: ['Angular 15–21', 'TypeScript', 'React', 'Design systems'],
+  },
+  {
+    title: 'Data viz',
+    items: ['Apache ECharts', 'Cube.js', 'Accessible charts', 'Real-time dashboards'],
+  },
+  {
+    title: 'AI-assisted delivery',
+    items: ['LLM assistant UI', 'SSE streaming', 'Chart tool contract', 'Claude Code'],
+  },
+];
+
+export { experiences, impacts, craft };

@@ -10,6 +10,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,md}\"",
+    "check": "npm run lint && npm run build",
     "preview": "vite preview",
     "prepare": "husky"
   },
@@ -18,14 +19,9 @@
     "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",
     "framer-motion": "^11.14.3",
-    "jspdf": "^2.5.2",
-    "maath": "^0.10.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-parallax-tilt": "^1.7.266",
     "react-router-dom": "^7.0.2",
-    "react-tilt": "^1.0.2",
-    "react-vertical-timeline-component": "^3.5.3",
     "three": "^0.149.0"
   },
   "devDependencies": {

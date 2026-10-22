@@ -1,0 +1,16 @@
+---
+description: Keep the portfolio keyboard and screen-reader usable
+alwaysApply: true
+---
+
+# Accessibility
+
+This is a one-page hireable site. Keep WCAG 2.2 AA. Do not add a second canvas or break reduced motion.
+
+- Skip link stays first. Landmarks: `header` / `nav` / `main#main` / `footer`.
+- Visible `:focus-visible` on every control. Do not use `outline-none` without a replacement.
+- Icon-only links need an `aria-label`. New tabs say “(opens in a new tab)”.
+- Form errors use `aria-invalid` + `aria-describedby` and focus the first invalid field.
+- Toasts: `role="status"` for success, `role="alert"` for errors.
+- Honor `prefers-reduced-motion` (`MotionConfig reducedMotion="user"`). Do not add animation that ignores it.
+- Decorative images `alt=""`. Do not nest interactive elements.

@@ -1,0 +1,36 @@
+---
+description: Lint, format, and build gates after any code change
+alwaysApply: true
+---
+
+# Quality gates
+
+Do not treat a change as done until these pass. Run them yourself; do not ask the user to.
+
+```bash
+npm run check   # eslint . && vite build
+```
+
+If only a few JS/JSX files changed, fix those first with `npx eslint --fix <files>`, then still run `npm run check`.
+
+## Lint
+
+- Config: `eslint.config.js`. Prettier runs as `prettier/prettier` (error).
+- Scripts: `npm run lint`, `npm run lint:fix`, `npm run format`.
+- Fix what you introduced. Do not disable a rule or add an ignore to get a green run.
+- `eqeqeq`, `prefer-const`, `no-var`, `no-duplicate-imports` are errors. Unused vars warn unless prefixed `_`.
+- `no-console` allows `console.warn` / `console.error` only.
+- Husky + lint-staged already run on commit. Never skip hooks (`--no-verify`).
+
+## Build
+
+- `npm run build` must succeed (`vite build`).
+- A lint-clean tree that does not build is not done.
+- Do not commit `dist/` (gitignored).
+
+## Review loop
+
+1. Read the diff.
+2. Follow `.cursor/rules/secrets.mdc`.
+3. Run `npm run check`.
+4. If lint or build fails, fix and re-run. Only then finish.

@@ -1,36 +1,52 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 
 import {
   About,
   Contact,
   Experience,
   Hero,
+  Impact,
   Navbar,
-  Tech,
-  StarsCanvas,
+  Craft,
   BackToTop,
   Footer,
 } from './components';
+import CosmicClicks from './components/CosmicClicks';
+
+const CosmosCanvas = lazy(() => import('./components/canvas/Cosmos'));
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Navbar />
-          <Hero />
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <div className="relative bg-primary">
+          <a href="#main" className="skip-link">
+            Skip to main content
+          </a>
+          <Suspense fallback={null}>
+            <CosmosCanvas />
+          </Suspense>
+          <CosmicClicks />
+          <div className="relative z-10">
+            <header>
+              <Navbar />
+            </header>
+            <main id="main" tabIndex={-1}>
+              <Hero />
+              <Impact />
+              <About />
+              <Experience />
+              <Craft />
+              <Contact />
+            </main>
+            <Footer />
+            <BackToTop />
+          </div>
         </div>
-        <About />
-        <Experience />
-        <Tech />
-        <div className="relative z-0">
-          <Contact />
-          <StarsCanvas />
-        </div>
-        <Footer />
-        <BackToTop />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </MotionConfig>
   );
 };
 

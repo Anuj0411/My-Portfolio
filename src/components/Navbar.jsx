@@ -1,94 +1,132 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styles } from '../style';
 import { navLinks, contactInfo } from '../constants';
-import { logo, menu, close, github, linkedin } from '../assets';
-import { MyResume } from './index';
+import { headerAvatar, menu, close, github, linkedin } from '../assets';
+import MyResume from './Resume';
+
 const Navbar = () => {
   const [active, setActive] = useState('');
   const [toggle, setToggle] = useState(false);
+  const menuButtonRef = useRef(null);
+  const menuId = 'primary-mobile-menu';
+
+  useEffect(() => {
+    if (!toggle) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setToggle(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [toggle]);
+
   return (
-    <nav className={`${styles.paddingX} w-full flex items-center py-5 fixed top-0 z-20 bg-primary`}>
+    <nav
+      aria-label="Primary"
+      className={`${styles.paddingX} w-full flex items-center py-5 fixed top-0 z-20 bg-primary/35 backdrop-blur-md border-b border-white/5`}
+    >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         <Link
           to="/"
+          aria-label="Anuj Parashar — Home"
           className="flex items-center gap-2"
           onClick={() => {
             setActive('');
             window.scrollTo(0, 0);
           }}
         >
-          <img src={logo} alt="logo" className="w-9 h-9 object-contain" />
-          <p className="test-white text-[18px] font-bold cursor-pointer flex items-center gap-2">
-            Anuj Parashar
-          </p>
+          <span className="relative block h-8 w-8 shrink-0 overflow-hidden rounded-full ring-1 ring-white/20">
+            <img src={headerAvatar} alt="" className="h-full w-full object-cover" />
+          </span>
+          <p className="text-white/90 text-[15px] font-medium tracking-wide">Anuj Parashar</p>
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-10 items-center">
+        <ul className="list-none hidden sm:flex flex-row gap-8 items-center">
           {navLinks.map((link) => {
             return (
               <li
                 key={link.id}
                 className={`${
-                  active === link.title ? 'text-white' : 'text-secondary'
-                } hover:text-white text-[18px] font-medium cursor-pointer`}
-                onClick={() => setActive(link.title)}
+                  active === link.title ? 'text-white' : 'text-white/70'
+                } hover:text-white text-[13px] tracking-[0.16em] uppercase`}
               >
-                <a href={`#${link.id}`}>{link.title}</a>
+                <a href={`#${link.id}`} onClick={() => setActive(link.title)}>
+                  {link.title}
+                </a>
               </li>
             );
           })}
-          <MyResume />
-          {/* Social Icons */}
+          <li>
+            <MyResume />
+          </li>
           <li className="flex gap-3 ml-2">
             <a
               href={contactInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-tertiary flex justify-center items-center hover:scale-110 transition-transform"
-              title="LinkedIn"
+              className="w-9 h-9 rounded-full border border-white/15 flex justify-center items-center hover:border-white/40 transition-colors"
+              aria-label="LinkedIn (opens in a new tab)"
             >
-              <img src={linkedin} alt="LinkedIn" className="w-5 h-5 object-contain" />
+              <img src={linkedin} alt="" className="w-5 h-5 object-contain" />
             </a>
             <a
               href={contactInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-tertiary flex justify-center items-center hover:scale-110 transition-transform"
-              title="GitHub"
+              className="w-9 h-9 rounded-full border border-white/15 flex justify-center items-center hover:border-white/40 transition-colors"
+              aria-label="GitHub (opens in a new tab)"
             >
-              <img src={github} alt="GitHub" className="w-5 h-5 object-contain" />
+              <img src={github} alt="" className="w-5 h-5 object-contain" />
             </a>
           </li>
         </ul>
         <div className="sm:hidden flex flex-1 justify-end items-center">
-          <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain cursor-pointer"
-            onClick={() => setToggle(!toggle)}
-          />
+          <button
+            ref={menuButtonRef}
+            type="button"
+            aria-label={toggle ? 'Close menu' : 'Open menu'}
+            aria-expanded={toggle}
+            aria-controls={menuId}
+            className="p-2 -mr-2"
+            onClick={() => setToggle((open) => !open)}
+          >
+            <img src={toggle ? close : menu} alt="" className="w-[22px] h-[22px] object-contain" />
+          </button>
           <div
+            id={menuId}
+            hidden={!toggle}
             className={`${
               !toggle ? 'hidden' : 'flex'
-            } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
+            } absolute top-[4.5rem] right-4 min-w-[11rem] z-10 border border-white/10 bg-primary/95 backdrop-blur-md p-5`}
           >
-            <ul className="list-none flex sm:flex justify-end items-start flex-col gap-4">
+            <ul className="list-none flex justify-end items-start flex-col gap-4 w-full">
               {navLinks.map((link) => {
                 return (
                   <li
                     key={link.id}
                     className={`${
-                      active === link.title ? 'text-white' : 'text-secondary'
-                    }font-poppins font-medium cursor-pointer text-[16px]`}
-                    onClick={() => {
-                      setToggle(!toggle);
-                      setActive(link.title);
-                    }}
+                      active === link.title ? 'text-white' : 'text-white/70'
+                    } text-[13px] tracking-[0.16em] uppercase`}
                   >
-                    <a href={`#${link.id}`}>{link.title}</a>
+                    <a
+                      href={`#${link.id}`}
+                      onClick={() => {
+                        setToggle(false);
+                        setActive(link.title);
+                      }}
+                    >
+                      {link.title}
+                    </a>
                   </li>
                 );
               })}
+              <li onClick={() => setToggle(false)}>
+                <MyResume />
+              </li>
             </ul>
           </div>
         </div>

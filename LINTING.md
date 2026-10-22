@@ -35,6 +35,9 @@ This project uses ESLint and Prettier to maintain code quality and consistent fo
 ## 📋 Available Scripts
 
 ```bash
+# Lint + production build (what the agent runs before finishing)
+npm run check
+
 # Run ESLint to check for issues
 npm run lint
 
